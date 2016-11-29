@@ -314,8 +314,62 @@ public class LinkedListKMC
    		}
    	}
    	
+//-------------  Check for repeat key and first name  --------------------
+   	
+   	public boolean checkOK(String key, DataType data)
+   	{
+   		ListNode current = first;
+   		for(int i=1; i<=size(); i++)
+   		{
+   			//If the key and the first name is equal to that of current,
+   			//It is not ok, otherwise
+   			if(((TableEntry)(current.getValue())).getKey().equals(key))
+   				if(((TableEntry)(current.getValue())).getData().getName().equals(data.getName()))
+   					return false;
+   			current=current.getNext();
+   		}
+   		return true;
+   	}
    	
    	
+//-------------------------  Delete keys  ------------------------------
+   	
+// Basically combines the delete method with the checkOK method
+   	
+   	public void deleteKey(String key)
+   	{
+   		ListNode temp = first;
+   		
+   		//Goes through until the end of the linked list
+		 while(temp!=null)
+		 {
+			//Only used if the list has one value; clears if the value is deleted
+			 if(temp.getNext()==null)
+			 {
+				if(((TableEntry)(temp.getValue())).getKey().equals(key))
+				{
+					clear();
+					return;
+				}
+				return;
+			 }
+
+			//If the value is in the very first node of the list you go over it 
+			if(temp==first && ((TableEntry)(temp.getValue())).getKey().equals(key))
+			{
+				first=first.getNext();
+				temp=first;
+			}
+			//If the next value is equal to it
+			else if(((TableEntry)(temp.getNext().getValue())).getKey().equals(key))
+			{
+				temp.setNext(temp.getNext().getNext());
+			}
+			//cycles to the next node
+			else
+				temp=temp.getNext();
+		 }
+   	}
    	
    	
    	
